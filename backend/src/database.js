@@ -1,6 +1,10 @@
 var items = [];
 
-export { listItems, addItem, getItem };
+export { listItems, addItem, getItem, flushItems };
+
+async function flushItems(ctx) {
+  items = [];
+}
 
 async function listItems(ctx) {
   return JSON.stringify(items);
@@ -9,8 +13,11 @@ async function listItems(ctx) {
 async function addItem(ctx) {
   const item = ctx.request.body;
   item.id = `${items.length}`;
-
+  if (!("title" in item) || !("content" in item)) {
+    ctx.throw(400, "Please check the item format");
+  }
   items.push(item);
+  return "Success";
 }
 
 async function getItem(ctx) {

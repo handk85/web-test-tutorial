@@ -5,7 +5,7 @@ import logger from "koa-logger";
 import cors from "@koa/cors";
 import bodyParser from "koa-body";
 
-import { listItems, getItem, addItem } from "./database";
+import { listItems, getItem, addItem, flushItems } from "./database";
 
 const app = new Koa();
 const router = new Router();
@@ -19,6 +19,7 @@ function addRoute(path, handler) {
 
 addRoute("/list", listItems);
 addRoute("/item", getItem);
+addRoute("/flush", flushItems);
 
 router.post("/add", async (ctx, next) => {
   ctx.body = await addItem(ctx);
