@@ -22,6 +22,10 @@ async function addItem(ctx) {
 
 async function getItem(ctx) {
   const item_id = ctx.request.query.id;
+  if (!item_id) {
+    ctx.throw(400, "Please specify id");
+  }
+
   const item = items.filter((a) => a.id === item_id);
   if (!item || item.length < 1) {
     ctx.throw(400, "Item cannot be found");
