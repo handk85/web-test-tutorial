@@ -1,20 +1,20 @@
 import supertest from "supertest";
 import app from "./app";
 
+let server = {};
+let request = {};
+
+beforeEach(async () => {
+  server = app.listen();
+  request = supertest(server);
+  await request.get("/flush");
+});
+
+afterEach(async () => {
+  await server.close();
+});
+
 describe("ListAPI", () => {
-  let server = {};
-  let request = {};
-
-  beforeEach(async () => {
-    server = app.listen();
-    request = supertest(server);
-    await request.get("/flush");
-  });
-
-  afterEach(async () => {
-    await server.close();
-  });
-
   test("List test", async () => {
     const response = await request.get("/list");
     expect(response.status).toBe(200);
@@ -48,19 +48,6 @@ describe("ListAPI", () => {
 });
 
 describe("AddAPI", () => {
-  let server = {};
-  let request = {};
-
-  beforeEach(async () => {
-    server = app.listen();
-    request = supertest(server);
-    await request.get("/flush");
-  });
-
-  afterEach(async () => {
-    await server.close();
-  });
-
   test("AddItem Test", async () => {
     const item = { title: "Test title", content: "Hello world!" };
     const response = await request
@@ -95,19 +82,6 @@ describe("AddAPI", () => {
 });
 
 describe("GetItem API", () => {
-  let server = {};
-  let request = {};
-
-  beforeEach(async () => {
-    server = app.listen();
-    request = supertest(server);
-    await request.get("/flush");
-  });
-
-  afterEach(async () => {
-    await server.close();
-  });
-
   test("GetItem Test", async () => {
     const item = { title: "Test title", content: "Hello world!" };
     await request
