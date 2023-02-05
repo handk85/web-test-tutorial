@@ -31,12 +31,15 @@ export function ItemView() {
 
   return (
     <App>
-      {error && <Alert variant="danger">{error}</Alert>}
+      {error && (
+        <Alert id="errorAlert" variant="danger">
+          {error}
+        </Alert>
+      )}
       {!item ? (
         <Spinner animation="border" />
       ) : (
         <>
-          {console.log(item)}
           <h1>{item.title}</h1>
           <br />
           <br />

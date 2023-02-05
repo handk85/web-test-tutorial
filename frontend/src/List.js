@@ -15,7 +15,7 @@ export function ListView() {
         setItems(resp.data);
       })
       .catch((err) => {
-        console.log(err);
+        console.log(err.response.data);
       });
   }, []);
 
@@ -23,12 +23,12 @@ export function ListView() {
     <App>
       <h2>Items</h2>
       {!items ? (
-        <Spinner />
+        <Spinner data-testid="loading" />
       ) : (
         <ul>
           {items.map((item) => {
             return (
-              <li>
+              <li key={item.id}>
                 <Link to={`/item/${item.id}`}>{item.title}</Link>
               </li>
             );
