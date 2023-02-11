@@ -1,6 +1,6 @@
 import React from "react";
 import App from "./App";
-import { Form, Container, Button } from "react-bootstrap";
+import { Form, Container, Button, Alert } from "react-bootstrap";
 import axios from "axios";
 import { API_ENDPOINT } from "./config";
 
@@ -9,15 +9,18 @@ export function WriteView() {
     title: "",
     content: "",
   });
+  const [error, setError] = React.useState();
 
   function write() {
     axios
       .post(`${API_ENDPOINT}/add`, formData)
       .then((response) => {
+        console.log(response);
         window.location.href = "/";
       })
       .catch((e) => {
         console.log(e);
+        setError(e.data);
       });
   }
 
@@ -31,8 +34,9 @@ export function WriteView() {
           }}
         >
           <Form.Group className="mb-3">
-            <Form.Label>Title</Form.Label>
+            <Form.Label htmlFor="item-title">Title</Form.Label>
             <Form.Control
+              id="item-title"
               type="text"
               value={formData.username}
               onChange={(e) =>
@@ -45,8 +49,9 @@ export function WriteView() {
           </Form.Group>
 
           <Form.Group className="mb-3">
-            <Form.Label>Content</Form.Label>
+            <Form.Label htmlFor="item-content">Content</Form.Label>
             <Form.Control
+              id="item-content"
               as="textarea"
               value={formData.content}
               onChange={(e) =>
@@ -62,6 +67,12 @@ export function WriteView() {
             Submit
           </Button>
         </Form>
+
+        {error && (
+          <Alert variant="danger" role="alert">
+            {error}
+          </Alert>
+        )}
       </Container>
     </App>
   );

@@ -18,7 +18,7 @@ function App(props) {
       <footer style={{ marginTop: "3rem", marginBottom: "3rem" }}>
         <Container>
           <hr />
-          <p className="text-center">&copy; 2023 DongGyun Han </p>
+          <p className="text-center">&copy; 2023 DongGyun Han</p>
         </Container>
       </footer>
     </>
