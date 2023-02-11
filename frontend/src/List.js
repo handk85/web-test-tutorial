@@ -7,7 +7,7 @@ import { API_ENDPOINT } from "./config";
 
 export function ListView() {
   const [items, setItems] = React.useState([]);
-  const [error, setError] = React.useState([]);
+  const [error, setError] = React.useState();
 
   React.useEffect(() => {
     axios
