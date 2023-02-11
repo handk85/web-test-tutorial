@@ -7,6 +7,9 @@ async function flushItems(ctx) {
 }
 
 async function listItems(ctx) {
+  if (items.length < 1) {
+    ctx.throw(400, "No items found");
+  }
   return JSON.stringify(items);
 }
 

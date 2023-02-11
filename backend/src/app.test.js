@@ -15,16 +15,16 @@ afterEach(async () => {
 });
 
 describe("ListAPI", () => {
-  test("List test", async () => {
+  test("Get empty list test", async () => {
     const response = await request.get("/list");
-    expect(response.status).toBe(200);
-    expect(response.text).toBe("[]");
+    expect(response.status).toBe(400);
+    expect(response.text).toBe("No items found");
   });
 
   test("Add Multiple Items and Get List", async () => {
     let response = await request.get("/list");
-    expect(response.status).toBe(200);
-    expect(response.text).toBe("[]");
+    expect(response.status).toBe(400);
+    expect(response.text).toBe("No items found");
 
     const num_iteration = 5;
     [...Array(num_iteration).keys()].map(async (i) => {
