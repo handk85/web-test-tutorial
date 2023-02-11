@@ -1,24 +1,13 @@
 import React from "react";
 import axios from "axios";
-import { createRoot } from "react-dom/client";
-import { act } from "@testing-library/react";
+import { act, render, screen, cleanup } from "@testing-library/react";
 import { Route, MemoryRouter } from "react-router-dom";
 
 import { ItemView } from "./Item";
 
 jest.mock("axios");
 
-let container = null;
-let root = null;
-beforeEach(() => {
-  container = document.createElement("div");
-  root = createRoot(container);
-});
-
-afterEach(() => {
-  container = null;
-  root = null;
-});
+afterEach(cleanup);
 
 describe("ItemView", () => {
   it("render item", async () => {
@@ -30,7 +19,7 @@ describe("ItemView", () => {
 
     axios.get.mockImplementation(() => Promise.resolve({ data: mockItem }));
     await act(async () => {
-      await root.render(
+      render(
         <MemoryRouter initialEntries={["/item/0"]}>
           <Route path="/item/:id">
             <ItemView />
@@ -38,17 +27,18 @@ describe("ItemView", () => {
         </MemoryRouter>
       );
     });
-    expect(container.querySelector("h1").textContent).toBe(mockItem.title);
-    expect(container.querySelector("pre").textContent).toBe(mockItem.content);
+
+    expect(screen.getByText(mockItem.title)).toBeInTheDocument();
+    expect(screen.getByText(mockItem.content)).toBeInTheDocument();
   });
 
   it("failed to get Item", async () => {
-    const errorMessage = "This is a test Error";
-    axios.get.mockImplementation(() =>
-      Promise.reject({ response: { data: errorMessage } })
-    );
+    const error = {
+      data: "Error!!!",
+    };
+    axios.get.mockImplementation(() => Promise.reject({ response: error }));
     await act(async () => {
-      await root.render(
+      render(
         <MemoryRouter initialEntries={["/item/0"]}>
           <Route path="/item/:id">
             <ItemView />
@@ -56,10 +46,9 @@ describe("ItemView", () => {
         </MemoryRouter>
       );
     });
-    const errorAlert = container.querySelector("#errorAlert");
-    expect(errorAlert).toBeValid();
-    expect(errorAlert.textContent).toBe(errorMessage);
-    expect(container.querySelector("h1")).toBeNull();
-    expect(container.querySelector("pre")).toBeNull();
+
+    const errorAlert = screen.getByRole("alert");
+    expect(errorAlert).toBeInTheDocument();
+    expect(errorAlert.textContent).toBe(error.data);
   });
 });

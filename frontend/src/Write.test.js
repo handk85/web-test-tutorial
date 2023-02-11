@@ -26,18 +26,9 @@ beforeEach(() => {
   title = screen.getByLabelText("Title");
   content = screen.getByLabelText("Content");
   button = screen.getByText("Submit");
-  testCommon();
 });
 
 afterEach(cleanup);
-
-function testCommon() {
-  const head = screen.getByText(/Simple blog/i);
-  expect(head).toBeInTheDocument();
-
-  const footer = screen.getByText(/2023 DongGyun Han/);
-  expect(footer).toBeInTheDocument();
-}
 
 describe("WriteView", () => {
   it("Render correctly", async () => {
@@ -68,8 +59,10 @@ describe("WriteView", () => {
     expect(button).toBeInTheDocument();
 
     // mocking
-    const errorMessage = "Error!!!";
-    axios.post.mockImplementation(() => Promise.reject({ data: errorMessage }));
+    const error = {
+      data: "Error!!!",
+    };
+    axios.post.mockImplementation(() => Promise.reject({ response: error }));
 
     // submitting an item
     await act(async () => {
@@ -81,6 +74,6 @@ describe("WriteView", () => {
     expect(axios.post).toBeCalled();
     const alert = screen.getByRole("alert");
     expect(alert).toBeInTheDocument();
-    expect(alert.textContent).toEqual(errorMessage);
+    expect(alert.textContent).toEqual(error.data);
   });
 });

@@ -1,12 +1,13 @@
 import React from "react";
 import axios from "axios";
 import App from "./App";
-import { Spinner, Button } from "react-bootstrap";
+import { Spinner, Button, Alert } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { API_ENDPOINT } from "./config";
 
 export function ListView() {
   const [items, setItems] = React.useState([]);
+  const [error, setError] = React.useState([]);
 
   React.useEffect(() => {
     axios
@@ -16,6 +17,7 @@ export function ListView() {
       })
       .catch((err) => {
         console.log(err.response.data);
+        setError(err.response.data);
       });
   }, []);
 
@@ -23,9 +25,9 @@ export function ListView() {
     <App>
       <h2>Items</h2>
       {!items ? (
-        <Spinner data-testid="loading" />
+        <Spinner />
       ) : (
-        <ul>
+        <ul role="items">
           {items.map((item) => {
             return (
               <li key={item.id}>
@@ -36,6 +38,11 @@ export function ListView() {
         </ul>
       )}
       <Button href="write">Write</Button>
+      {error && (
+        <Alert variant="danger" role="alert">
+          {error}
+        </Alert>
+      )}
     </App>
   );
 }

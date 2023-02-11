@@ -18,9 +18,9 @@ export function WriteView() {
         console.log(response);
         window.location.href = "/";
       })
-      .catch((e) => {
-        console.log(e);
-        setError(e.data);
+      .catch((err) => {
+        console.log(err.response.data);
+        setError(err.response.data);
       });
   }
 

@@ -32,7 +32,7 @@ export function ItemView() {
   return (
     <App>
       {error && (
-        <Alert id="errorAlert" variant="danger">
+        <Alert variant="danger" role="alert">
           {error}
         </Alert>
       )}
