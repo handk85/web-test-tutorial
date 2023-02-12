@@ -27,7 +27,7 @@ export function ListView() {
       {!items ? (
         <Spinner />
       ) : (
-        <ul role="items">
+        <ul role="feed">
           {items.map((item) => {
             return (
               <li key={item.id}>

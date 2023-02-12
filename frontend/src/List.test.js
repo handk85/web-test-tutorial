@@ -25,7 +25,7 @@ describe("ListView", () => {
       );
     });
     expect(screen.getByText("Items")).toBeInTheDocument();
-    const ul = screen.getByRole("items");
+    const ul = screen.getByRole("feed");
     expect(ul.children.length).toBe(mockList.length);
     expect(ul.children[0].textContent).toBe(mockList[0].title);
     expect(ul.children[1].textContent).toBe(mockList[1].title);
