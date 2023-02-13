@@ -6,7 +6,7 @@ This repository provides a simple backend & frontend web blog with unit test and
 
 ## Requirements
 
-- node.js > 14.x
+- node.js >= 14.x
 
 ## Backend
 
@@ -47,6 +47,8 @@ For ease of testing, it uses [testing-library](https://testing-library.com).
 
 ### How to run
 
+You should run backend in a terminal session.
+
 - Move to the backend directory: `cd frontend`
 - Install dependencies and build: `npm ci`
 - Run test: `npm test`
@@ -58,6 +60,10 @@ For ease of testing, it uses [testing-library](https://testing-library.com).
 The e2e test (a.k.a. integration test) is implemented by using [cypress](https://www.cypress.io).
 
 ### How to run
+
+Before run the e2e test, you should run both backend and frontend in seaparate terminal sessions.
+
+(Tip. you may want to use [tmux](https://github.com/tmux/tmux/wiki) or [screen](https://linuxize.com/post/how-to-use-linux-screen/) to run multiple terminal sessions)
 
 - Move to the backend directory: `cd e2e_test`
 - Install dependencies and build: `npm ci`
