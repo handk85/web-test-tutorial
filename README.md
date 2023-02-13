@@ -41,8 +41,27 @@ The backend implementation provides three `GET` APIs and a `POST` API.
 
 ## Frontend
 
-TBA
+The frontend uses [React](https://reactjs.org).
+The basic UI components are from [React Bootstrap](https://react-bootstrap.github.io).
+For ease of testing, it uses [testing-library](https://testing-library.com).
+
+### How to run
+
+- Move to the backend directory: `cd frontend`
+- Install dependencies and build: `npm ci`
+- Run test: `npm test`
+- Run server: `npm run start`
+  - By default, it runs on the port 3000 (i.e., `http://localhost:3000`) and looking for the backend APIs at `http://localhost:3001`.
 
 ## End-to-end (E2E) Test
 
-TBA
+The e2e test (a.k.a. integration test) is implemented by using [cypress](https://www.cypress.io).
+
+### How to run
+
+- Move to the backend directory: `cd e2e_test`
+- Install dependencies and build: `npm ci`
+- Open Cypress Launchpad: `npm run cypress:open`
+  - The script opens Cypress Launchpad. You can interactively run e2e test.
+- Run e2e test in headless mode: `npm run cypress:run`
+  - It runs e2e test without openning browers.
