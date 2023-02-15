@@ -1,1 +1,2 @@
-export const API_ENDPOINT = "http://localhost:3001";
+export const API_ENDPOINT =
+  process.env.REACT_APP_API ?? "http://localhost:3001";
