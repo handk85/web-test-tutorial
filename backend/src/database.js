@@ -24,7 +24,7 @@ async function addItem(ctx) {
 }
 
 async function getItem(ctx) {
-  const item_id = ctx.request.query.id;
+  const item_id = ctx.request?.query?.id;
   if (!item_id) {
     ctx.throw(400, "Please specify id");
   }
