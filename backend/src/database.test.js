@@ -6,8 +6,16 @@ beforeEach(async () => {
 
 describe("listItems function", () => {
   test("Get empty list test", async () => {
-    const ctx = { throw: jest.fn() };
-    await listItems(ctx);
+    const ctx = {
+      throw: jest.fn(() => {
+        throw new Error("Error");
+      }),
+    };
+
+    try {
+      await listItems(ctx);
+    } catch (e) {}
+
     expect(ctx.throw).toBeCalledWith(400, "No items found");
   });
 
@@ -47,18 +55,45 @@ describe("AddItem function", () => {
     expect(list.length).toBe(1);
   });
 
+  test("Item is missing", async () => {
+    const ctx = {
+      throw: jest.fn(() => {
+        throw new Error("Error");
+      }),
+    };
+    try {
+      await addItem(ctx);
+    } catch (e) {}
+    expect(ctx.throw).toBeCalledWith(400, "No item to add");
+  });
+
   test("Title is missing", async () => {
     const broken_item = { a: "test", content: "cannot pass" };
-    const ctx = { request: { body: broken_item }, throw: jest.fn() };
-    await addItem(ctx);
+    const ctx = {
+      request: { body: broken_item },
+      throw: jest.fn(() => {
+        throw new Error("Error");
+      }),
+    };
+
+    try {
+      await addItem(ctx);
+    } catch (e) {}
 
     expect(ctx.throw).toBeCalledWith(400, "Please check the item format");
   });
 
   test("Content is missing", async () => {
     const broken_item = { title: "test", b: "cannot pass" };
-    const ctx = { request: { body: broken_item }, throw: jest.fn() };
-    await addItem(ctx);
+    const ctx = {
+      request: { body: broken_item },
+      throw: jest.fn(() => {
+        throw new Error("Error");
+      }),
+    };
+    try {
+      await addItem(ctx);
+    } catch (e) {}
 
     expect(ctx.throw).toBeCalledWith(400, "Please check the item format");
   });
@@ -89,9 +124,15 @@ describe("GetItem function", () => {
 
   test("GetItem with missing id", async () => {
     const ctx = {
-      throw: jest.fn(),
+      throw: jest.fn(() => {
+        throw new Error("Error");
+      }),
     };
-    await getItem(ctx);
+
+    try {
+      await getItem(ctx);
+    } catch (e) {}
+
     expect(ctx.throw).toBeCalledWith(400, "Please specify id");
   });
 
@@ -102,9 +143,15 @@ describe("GetItem function", () => {
           id: "unknown",
         },
       },
-      throw: jest.fn(),
+      throw: jest.fn(() => {
+        throw new Error("Error");
+      }),
     };
-    await getItem(ctx);
+
+    try {
+      await getItem(ctx);
+    } catch (e) {}
+
     expect(ctx.throw).toBeCalledWith(400, "Item cannot be found");
   });
 });
