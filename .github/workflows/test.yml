@@ -1,0 +1,43 @@
+name: Test github action
+
+on:
+  push:
+    branches: ["test-demo"]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [14.x, 16.x, 18.x]
+        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Backend Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: "npm"
+          cache-dependency-path: backend/package-lock.json
+
+      # Backend bulid and Test
+      - run: echo "Backend Build and Test"
+      - run: (cd backend && npm ci)
+      - run: (cd backend && npm run build --if-present)
+      - run: (cd backend && npm test)
+
+      - name: Frontend Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: "npm"
+          cache-dependency-path: frontend/package-lock.json
+
+      # Frontend bulid and Test
+      - run: echo "Frontend Build and Test"
+      - run: (cd frontend && npm ci)
+      - run: (cd frontend && npm run build --if-present)
+      - run: (cd frontend && npm test)
