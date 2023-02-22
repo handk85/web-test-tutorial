@@ -1,24 +1,17 @@
 import React from "react";
 import axios from "axios";
 import App from "./App";
-import { Spinner, Button, Alert } from "react-bootstrap";
+import { Spinner, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { API_ENDPOINT } from "./config";
 
 export function ListView() {
   const [items, setItems] = React.useState([]);
-  const [error, setError] = React.useState();
 
   React.useEffect(() => {
-    axios
-      .get(`${API_ENDPOINT}/list`)
-      .then((resp) => {
-        setItems(resp.data);
-      })
-      .catch((err) => {
-        console.log(err.response.data);
-        setError(err.response.data);
-      });
+    axios.get(`${API_ENDPOINT}/list`).then((resp) => {
+      setItems(resp.data);
+    });
   }, []);
 
   return (
@@ -38,11 +31,6 @@ export function ListView() {
         </ul>
       )}
       <Button href="write">Write</Button>
-      {error && (
-        <Alert variant="danger" role="alert">
-          {error}
-        </Alert>
-      )}
     </App>
   );
 }
