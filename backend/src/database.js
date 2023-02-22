@@ -15,6 +15,9 @@ async function listItems(ctx) {
 
 async function addItem(ctx) {
   const item = ctx.request?.body;
+  if (!item || Object.keys(item).length === 0) {
+    ctx.throw(400, "No item to add");
+  }
 
   item.id = `${items.length}`;
   items.push(item);
