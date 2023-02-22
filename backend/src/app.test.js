@@ -58,6 +58,15 @@ describe("AddAPI", () => {
     expect(response.text).toBe("Success");
   });
 
+  test("Item is missing", async () => {
+    const response = await request
+      .post("/add")
+      .set("Content-Type", "application/json");
+
+    expect(response.status).toBe(400);
+    expect(response.text).toBe("No item to add");
+  });
+
   test("Title is missing", async () => {
     const broken_item = { a: "test", content: "cannot pass" };
     const response = await request
