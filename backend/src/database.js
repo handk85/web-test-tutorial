@@ -15,6 +15,13 @@ async function listItems(ctx) {
 
 async function addItem(ctx) {
   const item = ctx.request?.body;
+  if (!item) {
+    ctx.throw(400, "No item to add");
+  }
+
+  if (!("title" in item) || !("content" in item)) {
+    ctx.throw(400, "Please check the item format");
+  }
 
   item.id = `${items.length}`;
   items.push(item);
