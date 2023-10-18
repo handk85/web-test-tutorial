@@ -15,10 +15,6 @@ build-stage:
     - (cd backend && npm ci)
     - echo "Frontend Build"
     - (cd frontend && npm ci)
-  artifacts:
-    paths:
-      - backend/node_modules
-      - frontend/node_modules
 
 test-stage:
   stage: test
@@ -27,7 +23,4 @@ test-stage:
     - (cd backend && npm test)
     - echo "Frontend Test"
     - (cd frontend && npm test)
-  artifacts:
-    paths:
-      - backend/node_modules
-      - frontend/node_modules
+  
